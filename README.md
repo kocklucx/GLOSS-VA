@@ -6,14 +6,22 @@ Optimization of baseline variational parameters is performed jointly with the sk
 
 ## Reproduction of results from the paper
 To reproduce the experiments from the paper you need to run the MCMC sampling first and then the respective .py file. 
+
   a) sixcities reproduces the logistic mixed model example
+  
   b) epilepsy reproduces the Poisson mixed model example
+  
   c) parking reproduces the discrete choice model example
+  
   d) elbo_plots reproduces the "Estimated ELBO versus iteration number" plot as shown in the paper
 
 ## Apply GLOSS-VA to your own models
 The file approximation.py contains code to approximate hierarchical models with G-VA, CSG-VA, and GLOSS-VA. More comments on the code can be found within this file. In particular:
+
   a) Variational_Approximation(...,skewness=False,variance=False) is a Gaussian variational approximation (G-VA)
+  
   b) Variational_Approximation(...,skewness=False,variance=True) is a conditional structured Gaussian approximation (CSG-VA)
+  
   c) Variational_Approximation(...,skewness=True,variance=True) is our novel variational approximation (GLOSS-VA)
+  
 epilepsy.py is a simple example to understand how the method can be applied to new model specifications. 
