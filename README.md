@@ -8,7 +8,7 @@ Optimization of baseline variational parameters is performed jointly with the sk
 A minimal working example on simulated data is given in minimal_working_example.py. This is a simple example to understand how GLOSS-VB can be applied to new model specifications. 
 
 ## Reproduction of results from the paper
-To reproduce the experiments from the paper you need to run the MCMC sampling first and then the respective .py file. 
+To reproduce the experiments from the paper you need to run the MCMC sampling first and then the respective .py file. The code is tested with Python 3.12.2. 
 
   a) sixcities reproduces the logistic mixed model example
   
