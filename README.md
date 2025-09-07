@@ -29,3 +29,14 @@ The file approximation.py contains code to approximate hierarchical models with 
   
   c) Variational_Approximation(...,skewness=True,variance=True) is our novel variational approximation (GLOSS-VA)
   
+## Citation
+
+If you use this work, please cite:
+
+```bibtex
+@article{KocTanBanNot2025,
+  title={Variational inference for hierarchical models with conditional scale and skewness corrections},
+  author={Kock, Lucas and Tan, Linda SL and Bansal, Prateek and Nott, David J},
+  journal={arXiv preprint arXiv:2503.18075},
+  year={2025}
+}
