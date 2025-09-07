@@ -1,8 +1,6 @@
 library(geepack)
 library(rstan)
 
-setwd("~/Desktop/skew_vb/revision1")
-
 data(ohio)
 age <- ohio$age
 smoke <- ohio$smoke
@@ -37,7 +35,7 @@ data <- list(n=n, N=N, k=k, y=yall, X=Xall, Z=Zall, startindex=startindex, endin
 ########
 # stan #
 ########
-fit <- stan(file = "~/Desktop/skew_vb/revision1/mcmc_sampling/stan_files/sixcites_altPrior.stan",data = data, iter = 50000, chains = 1, thin=1)
+fit <- stan(file = "~/mcmc_sampling/stan_files/sixcites_altPrior.stan",data = data, iter = 50000, chains = 1, thin=1)
 la <- extract(fit, permuted = TRUE, inc_warmup=FALSE) # return a list of arrays 
 write.csv(la, "results/sixcities_altPriorMCMC.csv", row.names = FALSE)
 write.csv(ohio,"data/ohio.csv")
