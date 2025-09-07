@@ -1,4 +1,4 @@
-from approximation import Variational_Approximation, global_correction
+from approximation import Variational_Approximation, global_correction, GVA_global_learned
 from utils.plot_utils import generate_plots
 import torch
 import pandas as pd
@@ -93,7 +93,8 @@ labels = []
 num_samples=25000
 max_epochs=150000
 window_size=1000
-# G-VA and G-VA^+
+
+# Approximations based on the G-VA
 start = time.time()
 vb = Variational_Approximation(log_h_i=log_h_i,log_prior_g=log_prior_g,y=y,dim_global=dim_global,dim_local=dim_local,skewness=False,variance=False)
 vb.train(max_epochs=max_epochs,window_size=window_size)
@@ -108,8 +109,21 @@ mean_local = vb.m_i
 sample_g, sample_l = global_correction(sample_g,sample_l,log_h_i,log_prior_g,vb.mu_g,vb.m_i)
 samples_global.append(sample_g)
 samples_local.append(sample_l)
-labels.append(r'G-VA$^+$')
-# CSG-VA and GLOSS-VA^-
+labels.append(r'G-VA$^{G-}$')
+vb.skewness = True
+sample_g, sample_l = vb.sample(num_samples)
+samples_global.append(sample_g)
+samples_local.append(sample_l)
+labels.append(r'G-VA$^{H-}$')
+vb = GVA_global_learned(log_h_i=log_h_i,log_prior_g=log_prior_g,y=y,dim_global=dim_global,dim_local=dim_local)
+vb.train(max_epochs=max_epochs,window_size=window_size)
+approximations.append(copy.deepcopy(vb))
+sample_g, sample_l = vb.sample(num_samples)
+samples_global.append(sample_g)
+samples_local.append(sample_l)
+labels.append(r'G-VA$^{G+}$')
+
+# Approximations based on CSG-VA
 start = time.time()
 vb = Variational_Approximation(log_h_i=log_h_i,log_prior_g=log_prior_g,y=y,dim_global=dim_global,dim_local=dim_local,skewness=False,variance=True)
 vb.train(max_epochs=max_epochs,window_size=window_size)
@@ -123,7 +137,8 @@ vb.skewness = True
 sample_g, sample_l = vb.sample(num_samples)
 samples_global.append(sample_g)
 samples_local.append(sample_l)
-labels.append(r'GLOSS-VA$^-$')
+labels.append(r'CSG-VA$^{H-}$')
+
 # GLOSS-VA
 start = time.time()
 vb = Variational_Approximation(log_h_i=log_h_i,log_prior_g=log_prior_g,y=y,dim_global=dim_global,dim_local=dim_local,skewness=True,variance=True)
@@ -134,6 +149,8 @@ sample_g, sample_l = vb.sample(num_samples)
 samples_global.append(sample_g)
 samples_local.append(sample_l)
 labels.append(r'GLOSS-VA')
+
+
 # MCMC
 samples_mcmc_global, samples_mcmc_local =  pickle.load(open('results/ParkingMCMC.p', 'rb'))
 
